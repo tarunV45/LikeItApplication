@@ -1,0 +1,7 @@
+backend folder structure
+    has three folders:
+        :components - this folder has router library that routes to the specific function such as creating posts finding posts etc.
+
+        :controller - this folder controlls component posts.js by selectively executing the users request like creating , finding posts etc
+
+        :models - it contains object model and structure of the posts
