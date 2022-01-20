@@ -5,7 +5,7 @@ const postSchema = mongoose.Schema({
   message: String,
   user: String,
   tags: [String],
-  selctedPic: String,
+  selectedPic: String,
   likes: {
     type: Number,
     default: 0,
