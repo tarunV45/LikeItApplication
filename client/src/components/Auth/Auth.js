@@ -54,7 +54,7 @@ const Auth = () => {
 
   const switchSign = () => {
     setIsSignUp((prevIsSignup) => !prevIsSignup);
-    handleShowPassword(false);
+    setShowPassword(false);
   };
 
   const googleSuccess = async (res) => {
@@ -89,7 +89,7 @@ const Auth = () => {
                   label="First Name"
                   half
                   handleChange={handleChange}
-                  autoFocus
+                  autoFocus={true}
                 />
                 <Input
                   name="lastName"
@@ -104,6 +104,7 @@ const Auth = () => {
               label="Email Address"
               handleChange={handleChange}
               type="email"
+              autoFocus={true}
             />
             <Input
               name="password"

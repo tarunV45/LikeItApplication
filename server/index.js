@@ -14,7 +14,7 @@ app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(cors());
 app.use("/posts", postRoutes);
-app.use("/user", userRoutes);
+app.use("/users", userRoutes);
 
 const port = process.env.PORT;
 

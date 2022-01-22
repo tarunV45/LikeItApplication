@@ -14,11 +14,12 @@ export const getPosts = async (req, res) => {
 export const createPost = async (req, res) => {
   //res.send("Created Successfully!");
   const post = req.body;
-  const newPost = new postmsg(post);
+  const newPost = new postmsg({...post, user: req.userId, createdTime: new Date().toISOString()});
   try {
     await newPost.save();
     res.status(201).json(newPost);
   } catch (err) {
+    console.log(err);
     res.status(404).json({ message: err.message });
   }
 };
@@ -59,12 +60,13 @@ export const likePost = async (req, res) => {
   const index = post.likes.findIndex((id) => id === String(req.userId));
   if(index === -1){
     post.likes.push(req.userId);
-  }else{
-    post.likes = post.likes.filter((id)=>id!==String(req.userId));
+  } else{
+    post.likes = post.likes.filter((id)=>id != String(req.userId));
   }
+
   const likedPost = await postmsg.findByIdAndUpdate(
     id,
-    { likes: post.likes + 1 },
+    post,
     { new: true }
   );
 

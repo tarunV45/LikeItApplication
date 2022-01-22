@@ -20,7 +20,7 @@ const input = ({
         required
         fullWidth
         label={label}
-        autoFocus
+        autoFocus={autoFocus}
         type={type}
         InputProps={
           name === "password"

@@ -7,14 +7,14 @@ import useStyles from "./style";
 
 const Form = ({ currentId, setCurrentId }) => {
   const classes = useStyles();
-
+  const user = JSON.parse(localStorage.getItem('profile'));
+  //console.log(user);
   const dispatch = useDispatch();
   const post = useSelector((state) =>
     currentId ? state.posts.find((p) => p._id === currentId) : null
   );
 
   const [postData, setPostData] = useState({
-    user: "",
     title: "",
     message: "",
     tags: "",
@@ -31,23 +31,33 @@ const Form = ({ currentId, setCurrentId }) => {
     event.preventDefault();
 
     if (currentId) {
-      dispatch(updatePost(currentId, postData));
+      dispatch(updatePost(currentId, {...postData, Name: user?.result?.name}));
+      clear();
     } else {
-      dispatch(createPost(postData));
+      dispatch(createPost({...postData, Name: user?.result?.name}));
+      clear();
     }
     clear();
   };
 
+if(!user?.result?.name){
+  return(
+    <Paper className={classes.paper}>
+      <Typography variant="h6" align="center">Please Signin to create your own posts!!</Typography>
+    </Paper>
+  )
+}
+
   const clear = () => {
-    setCurrentId(null);
+    setCurrentId(0);
     setPostData({
-      user: "",
       title: "",
       message: "",
       tags: "",
       selectedPic: "",
     });
   };
+
   return (
     <Paper className={classes.paper}>
       <form
@@ -59,14 +69,14 @@ const Form = ({ currentId, setCurrentId }) => {
         <Typography variant="h6">
           {currentId ? "Editing" : "Creating"} Post
         </Typography>
-        <TextField
+        {/* <TextField
           name="user"
           variant="outlined"
           label="User"
           fullWidth
           value={postData.user}
           onChange={(e) => setPostData({ ...postData, user: e.target.value })}
-        />
+        /> */}
         <TextField
           name="title"
           variant="outlined"

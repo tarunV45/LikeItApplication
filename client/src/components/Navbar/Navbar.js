@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
+import {Link, useLocation } from "react-router-dom";
+import decode from 'jwt-decode';
 import { AppBar, Avatar, Toolbar, Typography, Button } from "@material-ui/core";
-import { Link } from "react-router-dom";
 import useStyles from "./styles";
 import likeit from "../../images/like.jpg";
 import { LOGOUT } from "../../constants/actionType";
@@ -11,19 +11,22 @@ const Navbar = () => {
   const classes = useStyles();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const location = useLocation();
-  console.log(user);
+  
 
   const logout = () => {
     dispatch({ type: LOGOUT });
     setUser(null);
-    navigate("/");
+    window.location.reload();
   };
 
   useEffect(() => {
     const token = user?.token;
-    //chk for jwt in manual sign in
+    
+    if(token) {
+      const decoded_token = decode(token);
+      if(decoded_token.exp * 1000 < new Date().getTime()) logout();
+    }
     setUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);
 
@@ -61,6 +64,8 @@ const Navbar = () => {
               {user.result.name}
             </Typography>
             <Button
+              component={Link}
+              to="/"
               className={classes.logout}
               variant="contained"
               color="secondary"

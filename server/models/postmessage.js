@@ -4,11 +4,12 @@ const postSchema = mongoose.Schema({
   title: String,
   message: String,
   user: String,
+  Name: String,
   tags: [String],
   selectedPic: String,
   likes: {
-    type: Number,
-    default: 0,
+    type: [String],
+    default: [],
   },
   createdTime: {
     type: Date,
